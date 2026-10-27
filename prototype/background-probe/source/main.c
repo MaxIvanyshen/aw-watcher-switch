@@ -79,14 +79,25 @@ static int readcfg(void) {
     return 0;
 }
 
+static u64 attempt_deadline;
+
+static int remaining_ms(void) {
+    u64 now = armGetSystemTick(), hz = armGetSystemTickFreq();
+    if (now >= attempt_deadline) { errno = ETIMEDOUT; return -1; }
+    return (int)(((attempt_deadline - now) * 1000 + hz - 1) / hz);
+}
+
 static int wait_fd(int fd, short ev) {
+    int ms = remaining_ms();
+    if (ms < 0) return -1;
     struct pollfd p = {fd, ev, 0};
-    int r = poll(&p, 1, TMO_MS);
+    int r = poll(&p, 1, ms);
     if (r == 0) { errno = ETIMEDOUT; return -1; }
     return r < 0 ? -1 : 0;
 }
 
 static int probe(void) {
+    attempt_deadline = armGetSystemTick() + armGetSystemTickFreq() * TMO_MS / 1000;
     char req[512], resp[512];
     int len = snprintf(req, sizeof req,
         "POST /probe HTTP/1.1\r\nHost: %s:%d\r\nAuthorization: Bearer %s\r\n"
@@ -112,6 +123,7 @@ static int probe(void) {
     }
     g_stage = "send";
     for (int off = 0; off < len;) {
+        if (remaining_ms() < 0) { fail("send_timeout", errno); goto out; }
         ssize_t w = send(fd, req + off, len - off, 0);
         if (w > 0) { off += w; continue; }
         if (w < 0 && (errno == EAGAIN || errno == EWOULDBLOCK) && wait_fd(fd, POLLOUT) == 0) continue;
@@ -120,6 +132,7 @@ static int probe(void) {
     g_stage = "recv";
     int n = 0;
     while (n < (int)sizeof resp - 1) {
+        if (remaining_ms() < 0) { fail("recv_timeout", errno); goto out; }
         ssize_t r = recv(fd, resp + n, sizeof resp - 1 - n, 0);
         if (r > 0) { n += r; if (memchr(resp, '\n', n)) break; continue; }
         if (r == 0) break;
