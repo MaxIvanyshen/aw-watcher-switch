@@ -1,0 +1,10 @@
+/build/
+/dist/
+*.elf
+*.nso
+*.nsp
+*.npdm
+*.nro
+.DS_Store
+# Local console data must not be committed.
+/data/

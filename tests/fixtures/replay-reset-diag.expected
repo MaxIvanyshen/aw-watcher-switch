@@ -1,0 +1,4 @@
+{"v":1,"t":"session","ep":1,"ev":5,"sub":1,"pid":"0x0100000000001000","su":1700001000,"sn":0,"ss":1000,"eu":1700001020,"en":0,"es":1020,"dur":20,"why":"out_of_focus","pol":0,"sem":"ok","c":"d4653ecf"}
+{"v":1,"t":"session","ep":1,"ev":11,"sub":1,"pid":"0x0100000000001000","su":1700001030,"sn":0,"ss":1030,"eu":null,"en":null,"es":1030,"dur":0,"why":"lost","pol":0,"sem":"unc","c":"a64cd76b"}
+{"v":1,"t":"gap","ep":2,"ev":2,"sub":0,"why":"log_reset","from":2,"to":2,"c":"5b272d09"}
+{"v":1,"t":"session","ep":2,"ev":4,"sub":1,"pid":"0x0100000000001000","su":1700001050,"sn":0,"ss":1050,"eu":1700001060,"en":0,"es":1060,"dur":10,"why":"out_of_focus","pol":0,"sem":"ok","c":"772b217a"}

@@ -1,0 +1,21 @@
+# Kernel SVCs granted to aw-watcher. Exactly the stubs the linked binary calls (checked by nx/check-no-net.sh).
+# Deliberately absent: heap/thread/memory-mapping/device-address-space, svcReadWriteRegister,
+# the debug group, process creation/termination, and svcCallSecureMonitor.
+svcSetMemoryPermission
+svcSetMemoryAttribute
+svcUnmapMemory
+svcQueryMemory
+svcExitProcess
+svcSleepThread
+svcMapSharedMemory
+svcUnmapSharedMemory
+svcCloseHandle
+svcArbitrateLock
+svcArbitrateUnlock
+svcWaitProcessWideKeyAtomic
+svcSignalProcessWideKey
+svcConnectToNamedPort
+svcSendSyncRequest
+svcBreak
+svcReturnFromException
+svcGetInfo
