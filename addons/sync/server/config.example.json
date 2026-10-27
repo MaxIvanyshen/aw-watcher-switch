@@ -1,0 +1,7 @@
+{
+  "bind": "100.64.0.1",
+  "port": 18766,
+  "db": "~/.local/share/aw-switch-sync/sync.db",
+  "token_file": "~/.config/aw-switch-sync/token",
+  "devices": ["00000000-0000-0000-0000-000000000000"]
+}

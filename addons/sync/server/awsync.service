@@ -1,0 +1,23 @@
+# User unit. Install to ~/.config/systemd/user/awsync.service, then: systemctl --user enable --now awsync
+# Tailscale is a system service, so a user unit cannot order after it. The bind fails until the tailnet
+# address exists, and Restart=on-failure retries every 10 s without a start limit.
+[Unit]
+Description=aw-switch sync receiver
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Environment=AWSYNC_CONFIG=%h/.config/aw-switch-sync/config.json
+ExecStart=/usr/bin/env python3 %h/.local/share/aw-switch-sync/awsync_server.py
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=%h/.local/share/aw-switch-sync
+RestrictAddressFamilies=AF_INET AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+
+[Install]
+WantedBy=default.target
