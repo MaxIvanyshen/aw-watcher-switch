@@ -128,7 +128,11 @@ static int probe(void) {
     }
     resp[n] = 0;
     int code = 0;
-    if (strncmp(resp, "HTTP/1.", 7) == 0 && resp[8] == ' ') code = atoi(resp + 9);
+    if (n >= 12 && strncmp(resp, "HTTP/1.", 7) == 0 && resp[8] == ' '
+        && resp[9] >= '0' && resp[9] <= '9'
+        && resp[10] >= '0' && resp[10] <= '9'
+        && resp[11] >= '0' && resp[11] <= '9')
+        code = (resp[9] - '0') * 100 + (resp[10] - '0') * 10 + resp[11] - '0';
     g_http = code;
     if (code == 200) { g_stage = "done"; g_result = "pass"; g_errno = 0; rv = 0; }
     else fail("http", 0);
