@@ -28,3 +28,8 @@ Run `dist/hello-probe.nro` (143360 B, sha256 `d49efa62...0177`, no bsd) from the
 
 ## Fix
 None. Evidence does not identify a probe defect.
+
+## Hardware observation (supersedes the open questions above)
+- Launching hbmenu from the HOME-screen Homebrew Menu icon (applet/forwarder route): the probe crashes immediately with the hbl User Break above.
+- Launching hbmenu by holding R on Celeste (title takeover): the probe runs and shows its screen. Pressing A returned `connect failed so_error=111` (ECONNREFUSED). Main reports the receiver had expired (no listener), then restarted it and confirmed HTTP 200 from the Mac. The Switch-side retest after restart is not recorded here.
+- Conclusion: the NRO starts and reaches connect() under title takeover, so the bsd:u path is exercised. The cause of the crash under the HOME-icon route is unknown and the loader was not fixed. Use the R-on-game takeover route for tests. The `hello-probe` control was not run (no longer needed).
