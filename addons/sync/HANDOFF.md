@@ -8,8 +8,9 @@ The uploader and receiver are implemented. The dispatch instructions below are h
 - The 24 receiver tests passed on both the Mac and Gerry (Python 3.14.7), with the real fixture present and no skipped tests on Gerry.
 - `python3 addons/sync/e2e.py` passed real-client/real-receiver tests for delivery, replay, lost acknowledgement, conflict, and offline retry, using synthetic data on loopback.
 - The pinned Switch build passed its service and packed-NPDM permission checks. NSP: 57,899 bytes, SHA-256 `a6d090093db8f79943cffe41db9cc79f002367ae72479b7f9375546325bac270`.
-- A persistent user receiver is deployed on Gerry, bound only to its tailnet address on port 18766. An unauthenticated request returned 401. Its isolated synthetic-test database initially contains zero records; no real history has been sent.
-- Watcher `core/`, `nx/`, root tests/tools/Makefile are unchanged. Switch installation, live file sharing, retry/replay and sleep/wake hardware gates remain pending.
+- A persistent user receiver is deployed on Gerry, bound only to its tailnet address on port 18766. An unauthenticated request returned 401. Synthetic delivery and receiver-outage recovery through a sleep/wake cycle passed on the Switch.
+- After explicit approval and private backups, real-journal upload was enabled into a separate production database. All available source bytes reached the server and were acknowledged with no skips or errors. Temporary Switch probe/test files were removed. See `HARDWARE.md` for evidence and remaining limits.
+- Watcher `core/`, `nx/`, root tests/tools/Makefile are unchanged. Stress-testing exact read/append overlap, real-journal reboot persistence and larger payload hardware behavior remain pending.
 
 ## Historical dispatch
 

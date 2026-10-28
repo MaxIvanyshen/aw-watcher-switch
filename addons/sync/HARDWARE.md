@@ -28,6 +28,12 @@ After restoring the receiver:
 
 This validates eventual delivery across that receiver outage and sleep/wake cycle. It does not prove behavior for every sleep timing or network failure.
 
+## Real-journal activation
+
+After explicit user approval, the real journal was backed up privately and the receiver was switched to a separate production SQLite database. An empty pre-upload database backup was created first. The uploader then read the real journal successfully while the watcher remained enabled, delivered multiple batches, and reported all available records acknowledged with no skipped records or errors. Stored bytes matched the private pre-upload journal backup exactly. No counts, record payloads, credentials or raw diagnostics from real history are committed here.
+
+The retired foreground probe and its configuration, and the isolated synthetic journal/checkpoints, were removed from the SD card. The real journal, uploader configuration and uploader binary were verified to remain.
+
 ## Remaining gates
 
-Real-history upload, reading while the live watcher appends, reboot persistence against the real journal and larger payload behavior still need hardware verification. Host tests cover checkpoint-loss replay, lost acknowledgements, conflicts and offline retry. No real-history payloads, credentials or raw diagnostics are committed here.
+Stress-testing reads exactly while the live watcher appends, reboot persistence against the real journal, and larger payload behavior still need hardware verification. Host tests cover checkpoint-loss replay, lost acknowledgements, conflicts and offline retry. The production receiver keeps the synthetic database separate from real history.
